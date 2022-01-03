@@ -13,6 +13,8 @@ public:
 	Vector2D acceleration;
 	float rotation;
 	float scale;
+	int width;
+	int height;
 
 	TransformComponent()
 	{
@@ -21,6 +23,8 @@ public:
 		position = Vector2D(0.0f, 0.0f);
 		velocity = Vector2D(0.0f, 0.0f);
 		acceleration = Vector2D(0.0f, 0.0f);
+		width = 0;
+		height = 0;
 	}
 
 	~TransformComponent()
