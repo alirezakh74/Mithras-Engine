@@ -1,2 +1,2 @@
 # Mithras-Engine
-ECS-based 2D Game Engine
+Entity Component based 2D Game Engine
