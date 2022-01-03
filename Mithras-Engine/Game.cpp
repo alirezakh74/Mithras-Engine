@@ -59,7 +59,7 @@ float posY = 0.0f;
 float velX = 0.1f;
 float velY = 0.1f;
 
-void Game::update()
+void Game::update(float deltaTime)
 {
 	posX += velX;
 	posY += velY;
@@ -82,11 +82,34 @@ void Game::run()
 {
 	init();
 
+	float startTime = 0.0f;
+	float secondCounter = 0.0f;
+
 	while (m_bRunning)
 	{
+		startTime = SDL_GetTicks();
+
 		handleEvents();
-		update();
+		update(m_deltaTime);
 		render();
+
+		m_deltaTime = SDL_GetTicks() - startTime;
+		if (m_deltaTime < TIME_PER_FRAME)
+		{
+			SDL_Delay(TIME_PER_FRAME - m_deltaTime);
+			float t = TIME_PER_FRAME - m_deltaTime;
+			float ts = t / 1000.0f;
+		}
+
+		// at every second print FPS
+		if ((SDL_GetTicks() - secondCounter) >= 1000.0f)
+		{
+			std::cout << "FPS: " << m_frameCount << "\n";
+			secondCounter += 1000.0f;
+			m_frameCount = 0;
+		}
+
+		++m_frameCount;
 	}
 
 	clean();

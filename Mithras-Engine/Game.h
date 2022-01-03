@@ -12,7 +12,7 @@ public:
 	void init();
 
 	void handleEvents();
-	void update();
+	void update(float deltaTime);
 	void render();
 
 	void run();
@@ -26,5 +26,7 @@ private:
 	bool m_bRunning;
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
+	float m_deltaTime = 0.0f;
+	int m_frameCount = 0;
 };
 
