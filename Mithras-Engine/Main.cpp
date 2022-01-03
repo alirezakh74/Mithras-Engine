@@ -1,7 +1,11 @@
 
-#include <iostream>
+#include "Game.h"
 
-int main()
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello Mithras Game Engine!\n";
+	Game game;
+
+	game.run();
+
+	return 0;
 }
