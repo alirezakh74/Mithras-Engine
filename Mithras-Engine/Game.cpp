@@ -101,15 +101,15 @@ void Game::run()
 			float ts = t / 1000.0f;
 		}
 
+		++m_frameCount;
 		// at every second print FPS
 		if ((SDL_GetTicks() - secondCounter) >= 1000.0f)
 		{
 			std::cout << "FPS: " << m_frameCount << "\n";
+			//std::cout << "\x1b[A"; // go back one line up
 			secondCounter += 1000.0f;
 			m_frameCount = 0;
 		}
-
-		++m_frameCount;
 	}
 
 	clean();
