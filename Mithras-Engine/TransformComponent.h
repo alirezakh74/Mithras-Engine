@@ -27,7 +27,24 @@ public:
 		height = 0;
 	}
 
+	TransformComponent(Vector2D pos, Vector2D velocity, Vector2D acceleration, int width, int height, float rotation, float scale)
+	{
+		this->position = pos;
+		this->velocity = velocity;
+		this->acceleration = acceleration;
+		this->width = width;
+		this->height = height;
+		this->rotation = rotation;
+		this->scale = scale;
+	}
+
+
 	~TransformComponent()
+	{
+
+	}
+
+	virtual void init() override
 	{
 
 	}
