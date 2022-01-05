@@ -3,8 +3,9 @@
 #include <iostream>
 
 #include "Constants.h"
+#include "TransformComponent.h"
 
-Game::Game() : m_bRunning(false), m_window(NULL), m_renderer(NULL)
+Game::Game() : m_bRunning(false), m_window(NULL), m_renderer(NULL), m_deltaTime(0.0f)
 {
 }
 
@@ -29,6 +30,7 @@ void Game::init()
 	}
 
 	m_bRunning = true;
+	loadLevel(0);
 }
 
 void Game::handleEvents()
@@ -54,26 +56,18 @@ void Game::handleEvents()
 	}
 }
 
-float posX = 0.0f;
-float posY = 0.0f;
-float velX = 0.1f;
-float velY = 0.1f;
-
 void Game::update(float deltaTime)
 {
-	posX += velX;
-	posY += velY;
+	m_manager.update(deltaTime);
 }
 
 void Game::render()
 {
-	SDL_Rect myRect = { posX, posY, 10, 10 };
 
 	SDL_SetRenderDrawColor(m_renderer, 101, 101, 101, 255);
 	SDL_RenderClear(m_renderer);
 
-	SDL_SetRenderDrawColor(m_renderer, 255, 101, 101, 255);
-	SDL_RenderFillRect(m_renderer, &myRect);
+	m_manager.render();
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -83,6 +77,7 @@ void Game::run()
 	init();
 
 	float startTime = 0.0f;
+	float frameTime = 0.0f;
 	float secondCounter = 0.0f;
 
 	while (m_bRunning)
@@ -93,13 +88,19 @@ void Game::run()
 		update(m_deltaTime);
 		render();
 
-		m_deltaTime = SDL_GetTicks() - startTime;
-		if (m_deltaTime < TIME_PER_FRAME)
+		frameTime = SDL_GetTicks() - startTime;
+		if (frameTime < TIME_PER_FRAME)
 		{
-			SDL_Delay(TIME_PER_FRAME - m_deltaTime);
-			float t = TIME_PER_FRAME - m_deltaTime;
-			float ts = t / 1000.0f;
+			SDL_Delay((int)TIME_PER_FRAME - frameTime);
+			//float t = TIME_PER_FRAME - frameTime;
+			//float ts = t / 1000.0f;
 		}
+
+		frameTime = SDL_GetTicks() - startTime;
+		// Clamp dt
+		m_deltaTime = (frameTime > TIME_PER_FRAME) ? TIME_PER_FRAME : frameTime;
+		m_deltaTime /= 1000; // convert ms to s
+		//std::cout << "dt = " << m_deltaTime << "\n";
 
 		++m_frameCount;
 		// at every second print FPS
@@ -121,4 +122,16 @@ void Game::clean()
 	m_renderer = NULL;
 	SDL_DestroyWindow(m_window);
 	m_window = NULL;
+}
+
+void Game::loadLevel(int level)
+{
+	Entity& entity = m_manager.addEntity("bullet");
+
+	Vector2D p = Vector2D(0.0f, 0.0f);
+	Vector2D v = Vector2D(100.0f, 100.0f);
+	Vector2D a = Vector2D(0.0f, 0.0f);
+
+	entity.addComponent<TransformComponent>(p, v, a, 10, 10, 0.0f, 1.0f);
+	entity.getComponent<TransformComponent>().setRenderer(m_renderer);
 }
