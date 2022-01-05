@@ -35,12 +35,3 @@ void Entity::clean()
 	m_bIsActive = false;
 }
 
-template<typename T, typename ...TArgs>
-inline T& Entity::addComponent(TArgs&& ...args)
-{
-	T* newComponent(new T(std::forward<TArgs>(args)));
-	newComponent->owner = this;
-	components.emplace_back(newComponent);
-	newComponent.init();
-	return *newComponent;
-}
