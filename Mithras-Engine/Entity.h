@@ -48,6 +48,9 @@ public:
 	void clean();
 	bool isActive() const { return m_bIsActive; }
 
+	std::vector<Component*> getComponents() const { return m_components; }
+	std::string  getName() const { return m_name; }
+
 private:
 	std::vector<Component*> m_components;
 	EntityManager& m_manager;
