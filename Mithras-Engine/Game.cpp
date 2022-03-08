@@ -132,6 +132,28 @@ void Game::loadLevel(int level)
 	Vector2D v = Vector2D(100.0f, 100.0f);
 	Vector2D a = Vector2D(0.0f, 0.0f);
 
-	entity.addComponent<TransformComponent>(p, v, a, 10, 10, 0.0f, 1.0f);
+	entity.addComponent<TransformComponent>(p, v, a, 100, 100, 0.0f, 1.0f);
 	entity.getComponent<TransformComponent>().setRenderer(m_renderer);
+
+	Entity& entity2 = m_manager.addEntity("missile");
+
+	entity2.addComponent<TransformComponent>(Vector2D(200, 200), Vector2D(200, 20), Vector2D(10, 10), 50, 50, 0.0f, 1.0f);
+	entity2.getComponent<TransformComponent>().setRenderer(m_renderer);
+
+	Entity& entity3 = m_manager.addEntity("missile2");
+
+	entity3.addComponent<TransformComponent>(Vector2D(150, 200), Vector2D(0, 40), Vector2D(0, 0), 25, 25, 0.0f, 1.0f);
+	entity3.getComponent<TransformComponent>().setRenderer(m_renderer);
+
+	for (auto& _entity : m_manager.getEntities())
+	{
+		std::cout << "Entity Name: " << _entity->getName() << std::endl;
+		for (auto& component : _entity->getComponents())
+		{
+			std::string type = typeid(*component).name(); // class SomthingComponent
+			type.erase(0, 6);
+			std::cout << "\tComponent<" << type << ">" << std::endl;
+			//std::cout << "\tComponent<" << typeid(*component).name() << ">" << std::endl;
+		}
+	}
 }
