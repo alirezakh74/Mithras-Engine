@@ -22,7 +22,7 @@ public:
 	void clean();
 
 	bool isRunning() { return m_bRunning; }
-	SDL_Renderer* getRenderer() { return m_renderer; }
+	static SDL_Renderer* renderer;
 
 	void loadLevel(int level);
 
@@ -30,7 +30,6 @@ private:
 
 	bool m_bRunning;
 	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
 	float m_deltaTime = 0.0f;
 	int m_frameCount = 0;
 	EntityManager m_manager;
