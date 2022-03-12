@@ -60,8 +60,8 @@ public:
 	virtual void render() override
 	{
 		SDL_SetRenderDrawColor(m_renderer, 100, 0, 0, 255);
-		SDL_Rect rect = { position.getX(), position.getY(), width, height };
-		SDL_RenderFillRect(m_renderer, &rect);
+		SDL_Rect rect = { (int)position.getX(), (int)position.getY(), width, height };
+		SDL_RenderFillRect(Game::renderer, &rect);
 	}
 
 };
