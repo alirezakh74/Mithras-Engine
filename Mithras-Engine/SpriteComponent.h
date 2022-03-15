@@ -23,7 +23,8 @@ public:
 
 	virtual void init() override
 	{
-
+		srcRect = { 0, 0, 0, 0 };
+		destRect = { 0, 0, 0, 0 };
 	}
 
 	virtual void update(float deltaTime) override
