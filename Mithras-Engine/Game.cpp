@@ -4,6 +4,7 @@
 
 #include "Constants.h"
 #include "TransformComponent.h"
+#include "SpriteComponent.h"
 
 SDL_Renderer* Game::renderer;
 
@@ -135,17 +136,15 @@ void Game::loadLevel(int level)
 	Vector2D a = Vector2D(0.0f, 0.0f);
 
 	entity.addComponent<TransformComponent>(p, v, a, 100, 100, 0.0f, 1.0f);
-	entity.getComponent<TransformComponent>().setRenderer(renderer);
+	entity.addComponent<SpriteComponent>();
 
 	Entity& entity2 = m_manager.addEntity("missile");
 
 	entity2.addComponent<TransformComponent>(Vector2D(200, 200), Vector2D(200, 20), Vector2D(10, 10), 50, 50, 0.0f, 1.0f);
-	entity2.getComponent<TransformComponent>().setRenderer(renderer);
 
 	Entity& entity3 = m_manager.addEntity("missile2");
 
 	entity3.addComponent<TransformComponent>(Vector2D(150, 200), Vector2D(0, 40), Vector2D(0, 0), 25, 25, 0.0f, 1.0f);
-	entity3.getComponent<TransformComponent>().setRenderer(renderer);
 
 	for (auto& _entity : m_manager.getEntities())
 	{
@@ -159,5 +158,17 @@ void Game::loadLevel(int level)
 		}
 	}
 
-	//Vector2D pos = entity.getComponent<TransformComponent>().position;
+	Vector2D pos = Vector2D(0.0f,0.0f);
+	SDL_Rect rect = { 0,0,0,0 };
+	if (entity.hasComponent<TransformComponent>())
+	{
+		pos = entity.getComponent<TransformComponent>()->position;
+		std::cout << "has TransformComponent" << ": pos is " << pos.getX() << ", " << pos.getY() << std::endl;
+	}
+	if (entity.hasComponent<SpriteComponent>())
+	{
+		rect = entity.getComponent<SpriteComponent>()->srcRect;
+		std::cout << "has SpriteComponent" << ": source rect is " << rect.x << ", " << rect.y << ", " << rect.w << ", " << rect.h << std::endl;
+	}
+	pos += pos;
 }
