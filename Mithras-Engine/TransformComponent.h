@@ -14,9 +14,6 @@ public:
 	float scale;
 	int width;
 	int height;
-	SDL_Renderer* m_renderer = NULL;
-
-	void setRenderer(SDL_Renderer* renderer) { m_renderer = renderer; }
 
 	TransformComponent()
 	{
@@ -59,7 +56,7 @@ public:
 
 	virtual void render() override
 	{
-		SDL_SetRenderDrawColor(m_renderer, 100, 0, 0, 255);
+		SDL_SetRenderDrawColor(Game::renderer, 100, 0, 0, 255);
 		SDL_Rect rect = { (int)position.getX(), (int)position.getY(), width, height };
 		SDL_RenderFillRect(Game::renderer, &rect);
 	}
